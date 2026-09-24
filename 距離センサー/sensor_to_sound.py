@@ -22,6 +22,9 @@ def main():
         help="音量(0.0〜1.0) デフォルト: 0.5"
     )
     args = parser.parse_args()
+    if not (0.0 <= args.volume <= 1.0):
+        print(f"エラー: --volumeは0.0～1.0の範囲で指定してください(入力値: {args.volume})")
+        return
 
     ser = serial.Serial(args.port, args.baud, timeout=1)
     time.sleep(2) 
