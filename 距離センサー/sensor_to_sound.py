@@ -17,6 +17,10 @@ def main():
         "--baud", type=int, default=9600,
         help="ボーレート。Arduinoスケッチ側のSerial.begin()と揃える(デフォルト: 9600)"
     )
+    parser.add_argument(
+        "--volume", type=float, default=0.5,
+        help="音量(0.0〜1.0) デフォルト: 0.5"
+    )
     args = parser.parse_args()
 
     ser = serial.Serial(args.port, args.baud, timeout=1)
@@ -47,7 +51,7 @@ def main():
             freq = distance_to_frequency(distance_cm)
             print(f"距離: {distance_cm:6.1f} cm -> {freq:7.1f} Hz")
 
-            wave = generate_sine_wave(freq, duration=0.15)
+            wave = generate_sine_wave(freq, duration=0.15, amplitude=args.volume)
             sound = pygame.sndarray.make_sound(wave)
             sound.play()
     except KeyboardInterrupt:
